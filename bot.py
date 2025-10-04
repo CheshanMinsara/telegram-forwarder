@@ -4,11 +4,19 @@ from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
 # Configuration from environment variables
-API_ID = os.environ.get('API_ID')
+API_ID = int(os.environ.get('API_ID'))
 API_HASH = os.environ.get('API_HASH')
 SESSION_STRING = os.environ.get('SESSION_STRING')
+
+# Convert channel IDs to integers if they're numeric
 SOURCE_CHANNEL = os.environ.get('SOURCE_CHANNEL')
 TARGET_CHANNEL = os.environ.get('TARGET_CHANNEL')
+
+# Convert to int if it's a channel ID (starts with - or is numeric)
+if SOURCE_CHANNEL.lstrip('-').isdigit():
+    SOURCE_CHANNEL = int(SOURCE_CHANNEL)
+if TARGET_CHANNEL.lstrip('-').isdigit():
+    TARGET_CHANNEL = int(TARGET_CHANNEL)
 
 # Validate environment variables
 if not all([API_ID, API_HASH, SESSION_STRING, SOURCE_CHANNEL, TARGET_CHANNEL]):
